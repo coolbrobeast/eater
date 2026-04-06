@@ -1,0 +1,668 @@
+
+<style>
+@import url('https://fonts.googleapis.com/css2?family=Fredoka+One&family=Nunito:wght@400;600;700;800&display=swap');
+*{box-sizing:border-box;margin:0;padding:0}
+:root{--pink:#FF6B9D;--purple:#C77DFF;--teal:#4ECDC4;--yellow:#FFE66D;--green:#6BCB77;--orange:#FF9E7D;--cream:#FFF9F0;--dgreen:#2D6A4F}
+body{font-family:'Nunito',sans-serif;background:#e8f5e9;overflow-x:hidden}
+.header{background:linear-gradient(135deg,#FF6B9D,#C77DFF 50%,#4ECDC4);padding:0 20px;height:60px;display:flex;align-items:center;justify-content:space-between;box-shadow:0 4px 20px rgba(0,0,0,.15);position:sticky;top:0;z-index:100}
+.logo{display:flex;align-items:center;gap:10px;font-family:'Fredoka One',cursive;color:white;font-size:20px;text-shadow:2px 2px 0 rgba(0,0,0,.1)}
+.logo-hop{font-size:26px;animation:bounce .8s infinite alternate}
+@keyframes bounce{from{transform:translateY(0)}to{transform:translateY(-6px)}}
+.nav{display:flex;gap:6px}
+.nav-btn{background:rgba(255,255,255,.25);border:2px solid rgba(255,255,255,.5);color:white;padding:5px 14px;border-radius:24px;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:700;font-size:12px;transition:all .2s}
+.nav-btn:hover,.nav-btn.active{background:white;color:#C77DFF}
+.cd-pill{background:rgba(255,255,255,.9);border-radius:24px;padding:5px 14px;font-weight:800;font-size:12px;color:#C9184A;display:flex;align-items:center;gap:5px}
+.section{display:none}.section.active{display:block}
+
+/* MAP */
+.map-wrap{position:relative;height:460px;background:linear-gradient(180deg,#87CEEB 0%,#b8e4f7 58%,#6BCB77 58%,#5CB85C 100%);overflow:hidden}
+.clouds{position:absolute;top:0;left:0;width:100%;pointer-events:none}
+.cloud{position:absolute;background:rgba(255,255,255,.82);border-radius:50px;height:28px;animation:fcloud linear infinite}
+.cloud::before,.cloud::after{content:'';position:absolute;background:rgba(255,255,255,.82);border-radius:50%}
+.cloud::before{width:38px;height:38px;top:-18px;left:10px}
+.cloud::after{width:28px;height:28px;top:-14px;right:10px}
+@keyframes fcloud{from{transform:translateX(-220px)}to{transform:translateX(110vw)}}
+.continents{position:absolute;top:0;left:0;width:100%;height:100%;opacity:.18;pointer-events:none}
+.egg-trail{position:absolute;top:0;left:0;width:100%;height:100%;pointer-events:none}
+.trail-dot{position:absolute;width:18px;height:22px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;transform:translate(-50%,-50%);opacity:.9;box-shadow:0 2px 5px rgba(0,0,0,.2);animation:pulse 2s ease-in-out infinite}
+@keyframes pulse{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-50%) scale(1.15)}}
+.bunny-pin{position:absolute;transform:translate(-50%,-50%);z-index:10;cursor:pointer;animation:hop 1.5s infinite}
+@keyframes hop{0%,100%{transform:translate(-50%,-50%) scale(1)}50%{transform:translate(-50%,-60%) scale(1.1)}}
+.bunny-shadow{position:absolute;bottom:-4px;left:50%;transform:translateX(-50%);width:38px;height:11px;background:rgba(0,0,0,.2);border-radius:50%;filter:blur(3px)}
+.loc-card{position:absolute;bottom:72px;left:50%;transform:translateX(-50%);background:white;border-radius:16px;padding:11px 18px;display:flex;align-items:center;gap:11px;box-shadow:0 8px 28px rgba(0,0,0,.14);min-width:270px;animation:slideup .3s ease}
+@keyframes slideup{from{transform:translateX(-50%) translateY(18px);opacity:0}to{transform:translateX(-50%) translateY(0);opacity:1}}
+.loc-icon{font-size:30px}
+.loc-name{font-weight:800;font-size:15px;color:#333}
+.loc-eggs-text{font-size:12px;color:#888;font-weight:600}
+.eggs-badge{background:linear-gradient(135deg,#FF6B9D,#C77DFF);color:white;padding:4px 11px;border-radius:24px;font-weight:800;font-size:12px;white-space:nowrap}
+.map-stats{position:absolute;bottom:14px;left:0;right:0;display:flex;justify-content:center;gap:10px}
+.stat-chip{background:rgba(255,255,255,.92);border-radius:24px;padding:7px 14px;font-weight:700;font-size:11px;color:#444;box-shadow:0 2px 8px rgba(0,0,0,.1);display:flex;align-items:center;gap:5px}
+
+/* GAMES */
+.games-section{background:#FFF9F0;padding:28px 20px}
+.sec-title{font-family:'Fredoka One',cursive;font-size:26px;color:#2D6A4F;text-align:center;margin-bottom:6px}
+.sec-sub{text-align:center;color:#888;font-weight:600;margin-bottom:24px;font-size:13px}
+.games-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(240px,1fr));gap:14px;max-width:1080px;margin:0 auto}
+.game-card{border-radius:18px;overflow:hidden;cursor:pointer;transition:transform .2s,box-shadow .2s;box-shadow:0 4px 14px rgba(0,0,0,.1);position:relative}
+.game-card:hover{transform:translateY(-5px) scale(1.02);box-shadow:0 12px 28px rgba(0,0,0,.14)}
+.game-thumb{height:130px;display:flex;align-items:center;justify-content:center;font-size:52px;position:relative;overflow:hidden}
+.game-thumb .sp{position:absolute;top:8px;right:10px;font-size:17px;animation:spin 3s linear infinite}
+@keyframes spin{to{transform:rotate(360deg)}}
+.game-info{background:white;padding:12px 14px}
+.game-name{font-weight:800;font-size:14px;color:#333;margin-bottom:3px}
+.game-desc{font-size:11px;color:#888;font-weight:600;margin-bottom:9px;line-height:1.4}
+.play-btn{display:inline-block;padding:5px 18px;border-radius:24px;color:white;font-weight:700;font-size:11px;border:none;cursor:pointer;transition:filter .2s}
+.play-btn:hover{filter:brightness(1.1)}
+.bonus-badge{position:absolute;top:7px;right:7px;background:#FFE66D;color:#333;font-size:10px;font-weight:800;padding:2px 7px;border-radius:24px;box-shadow:0 2px 5px rgba(0,0,0,.14)}
+
+/* MODAL */
+.modal-wrap{display:none;position:fixed;inset:0;background:rgba(0,0,0,.6);z-index:1000;align-items:center;justify-content:center;padding:14px}
+.modal-wrap.open{display:flex}
+.modal{background:white;border-radius:22px;width:100%;max-width:500px;max-height:92vh;overflow:hidden;display:flex;flex-direction:column;box-shadow:0 24px 70px rgba(0,0,0,.28);animation:popin .3s cubic-bezier(.175,.885,.32,1.275)}
+@keyframes popin{from{transform:scale(.82);opacity:0}to{transform:scale(1);opacity:1}}
+.modal-hdr{padding:18px 22px 14px;display:flex;align-items:center;justify-content:space-between}
+.modal-title{font-family:'Fredoka One',cursive;font-size:20px;color:#333}
+.modal-close{width:34px;height:34px;border-radius:50%;background:#f0f0f0;border:none;cursor:pointer;font-size:17px;display:flex;align-items:center;justify-content:center}
+.modal-close:hover{background:#e0e0e0}
+.modal-body{flex:1;overflow-y:auto;padding:0 22px 22px}
+
+/* shared game UI */
+.score-bar{display:flex;justify-content:space-between;align-items:center;background:#f8f8f8;border-radius:12px;padding:9px 14px;margin-bottom:11px}
+.sv{font-size:24px;font-weight:800;color:#C77DFF}
+.tv{font-size:24px;font-weight:800;color:#FF6B9D}
+.lbl{font-size:11px;color:#888;font-weight:600;margin-bottom:2px}
+.arena{position:relative;height:280px;border-radius:14px;overflow:hidden;border:3px solid #eee}
+.act-btn{display:block;width:100%;padding:11px;border-radius:11px;border:none;cursor:pointer;font-family:'Nunito',sans-serif;font-weight:800;font-size:14px;color:white;margin-top:11px;transition:filter .2s}
+.act-btn:hover{filter:brightness(1.08)}
+.res-overlay{display:flex;align-items:center;justify-content:center;height:100%;flex-direction:column;gap:9px}
+
+/* ABOUT */
+.about-sec{background:linear-gradient(135deg,#FF6B9D18,#C77DFF18 50%,#4ECDC418);padding:28px 20px;text-align:center}
+.big-bunny{font-size:60px;animation:bounce .8s infinite alternate;display:inline-block}
+.about-text{max-width:480px;margin:10px auto;color:#555;font-weight:600;line-height:1.6;font-size:14px}
+.about-cards{display:flex;gap:14px;justify-content:center;flex-wrap:wrap;margin-top:22px}
+.about-card{background:white;border-radius:14px;padding:14px 22px;text-align:center;box-shadow:0 4px 14px rgba(0,0,0,.07)}
+
+/* EGG HUNT */
+.hunt-egg{position:absolute;width:30px;height:38px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;cursor:pointer;display:flex;align-items:center;justify-content:center;font-size:13px;font-weight:800;color:white;text-shadow:0 1px 2px rgba(0,0,0,.3);box-shadow:0 3px 7px rgba(0,0,0,.2);animation:wiggle 2s ease-in-out infinite}
+.hunt-egg:hover{transform:scale(1.2)!important}
+@keyframes wiggle{0%,100%{transform:rotate(-3deg)}50%{transform:rotate(3deg)}}
+.hunt-egg.found{animation:explode .4s forwards;pointer-events:none}
+@keyframes explode{to{transform:scale(2);opacity:0}}
+
+/* MEMORY */
+.mem-grid{display:grid;grid-template-columns:repeat(4,1fr);gap:7px;max-width:300px;margin:0 auto}
+.mem-card{aspect-ratio:1;border-radius:11px;background:linear-gradient(135deg,#C77DFF,#FF6B9D);display:flex;align-items:center;justify-content:center;font-size:26px;cursor:pointer;transition:transform .3s;transform-style:preserve-3d;position:relative;box-shadow:0 3px 9px rgba(0,0,0,.14)}
+.mem-card.flipped{transform:rotateY(180deg)}
+.mem-card.matched{background:linear-gradient(135deg,#6BCB77,#4ECDC4)!important}
+.mem-front,.mem-back{position:absolute;inset:0;border-radius:11px;display:flex;align-items:center;justify-content:center;backface-visibility:hidden}
+.mem-front{background:linear-gradient(135deg,#C77DFF,#FF6B9D);font-size:20px;color:white}
+.mem-back{background:white;transform:rotateY(180deg);font-size:26px}
+
+/* SORT */
+.sort-egg{width:34px;height:42px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;cursor:grab;transition:transform .15s;box-shadow:0 2px 5px rgba(0,0,0,.14);display:flex;align-items:center;justify-content:center;font-size:12px;color:rgba(255,255,255,.9)}
+.sort-egg:hover{transform:scale(1.12)}
+.sort-basket{width:76px;min-height:110px;border-radius:11px;border:3px dashed #ddd;padding:7px;display:flex;flex-direction:column;gap:5px;align-items:center;transition:border-color .2s,background .2s}
+.sort-basket.drag-over{border-style:solid;background:rgba(199,125,255,.1)}
+
+/* TRIVIA */
+.trivia-q{font-weight:700;font-size:15px;color:#333;margin-bottom:14px;line-height:1.4}
+.trivia-opts{display:grid;grid-template-columns:1fr 1fr;gap:7px}
+.trivia-opt{padding:11px;border-radius:11px;border:2px solid #eee;cursor:pointer;font-weight:600;font-size:12px;color:#444;transition:all .2s;text-align:center}
+.trivia-opt:hover{border-color:#C77DFF;background:#f8f0ff;color:#C77DFF}
+.trivia-opt.correct{background:#d4edda;border-color:#6BCB77;color:#2D6A4F}
+.trivia-opt.wrong{background:#ffe0e0;border-color:#FF6B9D;color:#C9184A}
+
+/* SCRAMBLE */
+.sc-word{font-family:'Fredoka One',cursive;font-size:34px;letter-spacing:7px;color:#C77DFF;text-align:center;padding:14px;margin:7px 0}
+.sc-input{width:100%;padding:11px 14px;border:3px solid #eee;border-radius:11px;font-size:19px;font-weight:700;text-align:center;font-family:'Nunito',sans-serif;outline:none;transition:border-color .2s}
+.sc-input:focus{border-color:#C77DFF}
+.sc-input.correct{border-color:#6BCB77;background:#f0fff4;color:#2D6A4F}
+.sc-input.wrong{border-color:#FF6B9D;background:#fff0f4}
+
+/* WHACK */
+.w-hole{aspect-ratio:1;border-radius:14px;background:#7a5230;display:flex;align-items:center;justify-content:center;font-size:38px;cursor:pointer;overflow:hidden;box-shadow:inset 0 4px 11px rgba(0,0,0,.4);user-select:none;transition:background .2s}
+@keyframes popup{0%{transform:translateY(120%)}25%{transform:translateY(0)}75%{transform:translateY(0)}100%{transform:translateY(120%)}}
+.popping{animation:popup .8s ease}
+
+/* PAINT */
+#paint-cv{border-radius:14px;cursor:crosshair;display:block;touch-action:none}
+.p-swatch{width:30px;height:30px;border-radius:50%;cursor:pointer;transition:transform .15s,box-shadow .15s;box-shadow:0 2px 5px rgba(0,0,0,.2)}
+.p-swatch:hover,.p-swatch.active{transform:scale(1.25);box-shadow:0 4px 11px rgba(0,0,0,.28)}
+.p-brush{border-radius:50%;background:#333;border:none;cursor:pointer;transition:transform .15s}
+.p-brush:hover{transform:scale(1.15)}
+.p-brush.active{outline:3px solid #C77DFF}
+
+/* CONFETTI */
+.cp{position:fixed;width:9px;height:9px;border-radius:2px;pointer-events:none;z-index:9999;animation:cfall 2s forwards}
+@keyframes cfall{to{transform:translateY(100vh) rotate(720deg);opacity:0}}
+@keyframes sparkFly{to{transform:translateY(-28px);opacity:0}}
+</style>
+
+<div id="app">
+<div class="header">
+  <div class="logo"><span class="logo-hop">🐰</span>Easter Bunny Tracker</div>
+  <div class="nav">
+    <button class="nav-btn active" onclick="showSec('tracker')">🗺 Tracker</button>
+    <button class="nav-btn" onclick="showSec('games')">🎮 Games</button>
+    <button class="nav-btn" onclick="showSec('about')">🐣 About</button>
+  </div>
+  <div class="cd-pill">🥚 <span id="cd-txt">Loading...</span></div>
+</div>
+
+<div id="sec-tracker" class="section active">
+  <div class="map-wrap">
+    <div class="clouds" id="clouds"></div>
+    <svg class="continents" viewBox="0 0 800 480" preserveAspectRatio="xMidYMid meet">
+      <path d="M80 80 L180 70 L220 100 L240 150 L200 200 L180 220 L120 230 L80 200 L60 150 Z" fill="#2D6A4F"/>
+      <path d="M150 240 L210 230 L240 270 L230 350 L200 380 L170 370 L140 320 L130 270 Z" fill="#2D6A4F"/>
+      <path d="M320 60 L380 55 L400 80 L410 120 L380 140 L350 130 L310 110 L305 80 Z" fill="#2D6A4F"/>
+      <path d="M310 140 L380 135 L410 160 L420 240 L400 320 L360 340 L320 310 L300 240 L295 160 Z" fill="#2D6A4F"/>
+      <path d="M400 55 L560 50 L620 80 L640 130 L600 160 L550 170 L480 160 L430 140 L400 110 Z" fill="#2D6A4F"/>
+      <path d="M560 260 L640 250 L670 280 L660 330 L620 350 L570 340 L545 310 L550 275 Z" fill="#2D6A4F"/>
+    </svg>
+    <div class="egg-trail" id="egg-trail"></div>
+    <div class="bunny-pin" id="bunny" style="left:52%;top:45%">
+      <div class="bunny-shadow"></div>
+      <span style="font-size:44px">🐰</span>
+    </div>
+    <div class="loc-card">
+      <div class="loc-icon" id="loc-icon">🗼</div>
+      <div>
+        <div class="loc-name" id="loc-name">Paris, France</div>
+        <div class="loc-eggs-text" id="loc-eggs">Checking eggs...</div>
+      </div>
+      <div class="eggs-badge" id="eggs-badge">12.4M 🥚</div>
+    </div>
+    <div class="map-stats">
+      <div class="stat-chip">🌍 <span id="countries-stat">0</span> countries</div>
+      <div class="stat-chip">🥚 <span id="eggs-stat">0</span> eggs</div>
+      <div class="stat-chip">🏎 1,250 mph</div>
+    </div>
+  </div>
+</div>
+
+<div id="sec-games" class="section">
+  <div class="games-section">
+    <div class="sec-title">🎮 Easter Games</div>
+    <div class="sec-sub">Play mini-games while the Easter Bunny hops around the world!</div>
+    <div class="games-grid" id="games-grid"></div>
+  </div>
+</div>
+
+<div id="sec-about" class="section">
+  <div class="about-sec">
+    <div class="big-bunny">🐰</div>
+    <div class="sec-title" style="margin-top:10px">About the Easter Bunny</div>
+    <div class="about-text">Every year, the Easter Bunny hops around the entire world — hiding colorful eggs and bringing joy to children everywhere. This tracker follows every hop in real time! 🥚✨</div>
+    <div class="about-cards">
+      <div class="about-card"><div style="font-size:30px">🥚</div><div style="font-weight:800;font-size:20px;color:#C77DFF" id="ab-eggs">0</div><div style="font-size:11px;color:#888;font-weight:600">Eggs Hidden</div></div>
+      <div class="about-card"><div style="font-size:30px">🌍</div><div style="font-weight:800;font-size:20px;color:#FF6B9D" id="ab-countries">0</div><div style="font-size:11px;color:#888;font-weight:600">Countries</div></div>
+      <div class="about-card"><div style="font-size:30px">🐾</div><div style="font-weight:800;font-size:20px;color:#6BCB77" id="ab-hops">0</div><div style="font-size:11px;color:#888;font-weight:600">Hops Made</div></div>
+    </div>
+  </div>
+</div>
+</div>
+
+<!-- MODAL -->
+<div class="modal-wrap" id="mwrap" onclick="closeMaybe(event)">
+  <div class="modal">
+    <div class="modal-hdr">
+      <div class="modal-title" id="m-title">Game</div>
+      <button class="modal-close" onclick="closeModal()">✕</button>
+    </div>
+    <div class="modal-body" id="m-body"></div>
+  </div>
+</div>
+
+<script>
+/* ====== SECTION NAV ====== */
+function showSec(s){
+  ['tracker','games','about'].forEach(id=>{
+    document.getElementById('sec-'+id).classList.toggle('active',id===s);
+  });
+  document.querySelectorAll('.nav-btn').forEach((b,i)=>{
+    b.classList.toggle('active',['tracker','games','about'][i]===s);
+  });
+}
+
+/* ====== TRACKER ====== */
+const LOCS=[
+  {name:'Sydney, Australia',icon:'🦘',x:'76%',y:'72%',eggs:'8.2M'},
+  {name:'Tokyo, Japan',icon:'⛩️',x:'78%',y:'38%',eggs:'15.1M'},
+  {name:'Beijing, China',icon:'🏮',x:'72%',y:'34%',eggs:'19.3M'},
+  {name:'Mumbai, India',icon:'🕌',x:'62%',y:'47%',eggs:'11.7M'},
+  {name:'Moscow, Russia',icon:'❄️',x:'58%',y:'22%',eggs:'7.4M'},
+  {name:'Cairo, Egypt',icon:'🏺',x:'52%',y:'43%',eggs:'6.1M'},
+  {name:'Paris, France',icon:'🗼',x:'44%',y:'28%',eggs:'9.8M'},
+  {name:'London, UK',icon:'🎡',x:'41%',y:'24%',eggs:'8.9M'},
+  {name:'New York, USA',icon:'🗽',x:'24%',y:'33%',eggs:'17.2M'},
+  {name:'Los Angeles, USA',icon:'🎬',x:'14%',y:'38%',eggs:'12.0M'},
+  {name:'São Paulo, Brazil',icon:'🌴',x:'30%',y:'72%',eggs:'10.4M'},
+  {name:'Toronto, Canada',icon:'🍁',x:'22%',y:'28%',eggs:'6.3M'},
+  {name:'Mexico City',icon:'🌮',x:'18%',y:'45%',eggs:'9.1M'},
+  {name:'Cape Town, S.Africa',icon:'🦁',x:'48%',y:'78%',eggs:'4.8M'},
+];
+let curLoc=6,totalEggs=0,hopCount=0;
+const trailDots=[];
+const eggCols=['#FF6B9D','#C77DFF','#4ECDC4','#FFE66D','#6BCB77','#FF9E7D'];
+function fmtN(n){if(n>=1e9)return(n/1e9).toFixed(1)+'B';if(n>=1e6)return(n/1e6).toFixed(1)+'M';return n.toLocaleString();}
+function tickTracker(){
+  const loc=LOCS[curLoc];
+  document.getElementById('bunny').style.left=loc.x;
+  document.getElementById('bunny').style.top=loc.y;
+  const dot=document.createElement('div'); dot.className='trail-dot';
+  dot.style.left=loc.x; dot.style.top=loc.y;
+  dot.style.background=eggCols[hopCount%eggCols.length];
+  document.getElementById('egg-trail').appendChild(dot);
+  trailDots.push(dot); if(trailDots.length>8){trailDots[0].remove();trailDots.shift();}
+  totalEggs+=parseFloat(loc.eggs)*1e6; hopCount++;
+  document.getElementById('loc-icon').textContent=loc.icon;
+  document.getElementById('loc-name').textContent=loc.name;
+  document.getElementById('loc-eggs').textContent='Just delivered '+loc.eggs+' eggs!';
+  document.getElementById('eggs-badge').textContent=loc.eggs+' 🥚';
+  document.getElementById('countries-stat').textContent=hopCount;
+  document.getElementById('eggs-stat').textContent=fmtN(totalEggs);
+  document.getElementById('ab-eggs').textContent=fmtN(totalEggs);
+  document.getElementById('ab-countries').textContent=hopCount;
+  document.getElementById('ab-hops').textContent=hopCount;
+  curLoc=(curLoc+1)%LOCS.length;
+}
+function makeClouds(){
+  const c=document.getElementById('clouds');
+  for(let i=0;i<5;i++){
+    const cl=document.createElement('div'); cl.className='cloud';
+    cl.style.cssText=`width:${80+Math.random()*80}px;top:${Math.random()*28+4}%;left:${Math.random()*100}%;animation-duration:${20+Math.random()*28}s;animation-delay:-${Math.random()*28}s;opacity:${.5+Math.random()*.4}`;
+    c.appendChild(cl);
+  }
+}
+function updateCD(){
+  const now=new Date(); const yr=now.getFullYear();
+  let e=new Date(yr,3,20); if(now>e)e=new Date(yr+1,3,13);
+  const d=e-now; const dy=Math.floor(d/(864e5)); const hr=Math.floor((d%864e5)/36e5); const mn=Math.floor((d%36e5)/6e4);
+  document.getElementById('cd-txt').textContent=dy>0?`${dy}d ${hr}h until Easter!`:hr>0?`${hr}h ${mn}m to go!`:'🎉 Happy Easter!';
+}
+makeClouds(); tickTracker(); setInterval(tickTracker,4000); setInterval(updateCD,1000); updateCD();
+
+/* ====== GAMES GRID ====== */
+const GAMES=[
+  {id:'egghunt',name:'🥚 Egg Hunt Frenzy',desc:'Click all the hidden eggs before time runs out!',bg:'linear-gradient(135deg,#FF6B9D,#FF9E7D)',btn:'#FF6B9D',em:'🥚'},
+  {id:'memory',name:'🧠 Egg Memory Match',desc:'Flip cards and match all the Easter pairs!',bg:'linear-gradient(135deg,#C77DFF,#4ECDC4)',btn:'#C77DFF',em:'🧠'},
+  {id:'catch',name:'🧺 Egg Catcher',desc:'Move your basket to catch falling eggs — dodge the bombs!',bg:'linear-gradient(135deg,#6BCB77,#4ECDC4)',btn:'#6BCB77',em:'🧺'},
+  {id:'sort',name:'🎨 Egg Color Sort',desc:'Drag and drop eggs into their matching color baskets!',bg:'linear-gradient(135deg,#FFE66D,#FF9E7D)',btn:'#f0a020',em:'🎨'},
+  {id:'trivia',name:'❓ Easter Trivia',desc:'How much do you know about Easter? Find out!',bg:'linear-gradient(135deg,#4ECDC4,#6BCB77)',btn:'#4ECDC4',em:'❓'},
+  {id:'scramble',name:'🔤 Word Scramble',desc:'Unscramble Easter words against the clock!',bg:'linear-gradient(135deg,#FF6B9D,#C77DFF)',btn:'#FF6B9D',em:'🔤'},
+  {id:'whack',name:'🔨 Whack-a-Bunny',desc:"Whack the bunnies — don't squish the chicks!",bg:'linear-gradient(135deg,#C77DFF,#FF6B9D)',btn:'#C77DFF',em:'🔨'},
+  {id:'paint',name:'🖌️ Egg Decorator',desc:'Paint and decorate your very own Easter egg!',bg:'linear-gradient(135deg,#6BCB77,#FFE66D)',btn:'#6BCB77',em:'🖌️',badge:'Art'},
+];
+(function buildGrid(){
+  const g=document.getElementById('games-grid');
+  GAMES.forEach(gm=>{
+    const card=document.createElement('div'); card.className='game-card'; card.onclick=()=>openGame(gm.id);
+    card.innerHTML=`<div class="game-thumb" style="background:${gm.bg}"><span>${gm.em}</span><span class="sp">✨</span>${gm.badge?`<span class="bonus-badge">${gm.badge}</span>`:''}</div><div class="game-info"><div class="game-name">${gm.name}</div><div class="game-desc">${gm.desc}</div><button class="play-btn" style="background:${gm.btn}">▶ Play Now</button></div>`;
+    g.appendChild(card);
+  });
+})();
+
+/* ====== MODAL ====== */
+let activeGame=null;
+const cleanupFns=[];
+function openGame(id){
+  const gm=GAMES.find(x=>x.id===id);
+  document.getElementById('m-title').textContent=gm.name;
+  document.getElementById('mwrap').classList.add('open');
+  activeGame=id;
+  const body=document.getElementById('m-body'); body.innerHTML='';
+  cleanupFns.length=0;
+  if(id==='egghunt')initHunt(body);
+  else if(id==='memory')initMemory(body);
+  else if(id==='catch')initCatch(body);
+  else if(id==='sort')initSort(body);
+  else if(id==='trivia')initTrivia(body);
+  else if(id==='scramble')initScramble(body);
+  else if(id==='whack')initWhack(body);
+  else if(id==='paint')initPaint(body);
+}
+function closeMaybe(e){if(e.target===document.getElementById('mwrap'))closeModal();}
+function closeModal(){
+  cleanupFns.forEach(fn=>fn()); cleanupFns.length=0;
+  document.getElementById('mwrap').classList.remove('open');
+  activeGame=null;
+}
+
+/* ====== CONFETTI ====== */
+const CC=['#FF6B9D','#C77DFF','#4ECDC4','#FFE66D','#6BCB77'];
+function burst(){for(let i=0;i<38;i++)setTimeout(()=>{const p=document.createElement('div');p.className='cp';p.style.cssText=`left:${Math.random()*100}vw;top:-12px;background:${CC[Math.floor(Math.random()*5)]};width:${6+Math.random()*9}px;height:${6+Math.random()*9}px;animation-duration:${1.4+Math.random()}s`;document.body.appendChild(p);setTimeout(()=>p.remove(),2800);},i*52);}
+function spark(el){const r=el.getBoundingClientRect();for(let i=0;i<6;i++){const p=document.createElement('div');p.style.cssText=`position:fixed;width:7px;height:7px;border-radius:50%;left:${r.left+r.width/2+Math.random()*38-19}px;top:${r.top+r.height/2}px;background:${CC[i%5]};pointer-events:none;z-index:9999;animation:sparkFly .5s forwards`;document.body.appendChild(p);setTimeout(()=>p.remove(),500);}}
+
+/* ====== 1. EGG HUNT ====== */
+let hScore=0,hTime=30,hTmr=null;
+function initHunt(body){
+  hScore=0;hTime=30;
+  body.innerHTML=`<div class="score-bar"><div><div class="lbl">Score</div><div class="sv" id="h-sc">0</div></div><div><div class="lbl">Time</div><div class="tv" id="h-tm">30</div></div><div><div class="lbl">Target</div><div style="font-size:20px;font-weight:800;color:#6BCB77">12 🥚</div></div></div><div class="arena" style="background:linear-gradient(180deg,#87CEEB 50%,#6BCB77 50%)" id="h-arena"></div><button class="act-btn" id="h-start" style="background:linear-gradient(135deg,#FF6B9D,#C77DFF)" onclick="startHunt()">🥚 Start Hunt!</button>`;
+}
+function startHunt(){
+  hScore=0;hTime=30;
+  document.getElementById('h-start').style.display='none';
+  document.getElementById('h-sc').textContent='0';
+  spawnHuntEggs();
+  if(hTmr)clearInterval(hTmr);
+  hTmr=setInterval(()=>{hTime--;const t=document.getElementById('h-tm');if(t)t.textContent=hTime;if(hTime<=0){clearInterval(hTmr);endHunt();}},1000);
+  cleanupFns.push(()=>clearInterval(hTmr));
+}
+function spawnHuntEggs(){
+  const a=document.getElementById('h-arena');if(!a)return;a.innerHTML='';
+  const n=7+Math.floor(Math.random()*5);
+  for(let i=0;i<n;i++){
+    const e=document.createElement('div');e.className='hunt-egg';
+    e.style.cssText=`left:${8+Math.random()*78}%;top:${6+Math.random()*82}%;background:${eggCols[i%6]};animation-delay:${Math.random()*2}s`;
+    e.textContent=['🎀','⭐','💎','🌸','✨','🦋','🌈','🎵'][i%8];
+    e.onclick=function(){if(e.classList.contains('found'))return;e.classList.add('found');hScore++;document.getElementById('h-sc').textContent=hScore;spark(e);setTimeout(()=>{if(document.getElementById('h-arena'))spawnHuntEggs();},320);};
+    a.appendChild(e);
+  }
+}
+function endHunt(){
+  const a=document.getElementById('h-arena');if(!a)return;
+  a.innerHTML=`<div class="res-overlay"><div style="font-size:46px">${hScore>=12?'🏆':'😅'}</div><div style="font-family:'Fredoka One',cursive;font-size:22px;color:#C77DFF">${hScore>=12?'Egg Master!':'Good Try!'}</div><div style="font-weight:700;color:#666">Found ${hScore} eggs</div></div>`;
+  if(hScore>=12)burst();
+}
+
+/* ====== 2. MEMORY ====== */
+const M_EMOJIS=['🐰','🥚','🐣','🌸','🌷','🦋','🐥','🎀'];
+let mFlipped=[],mMatched=0,mLocked=false,mMoves=0;
+function initMemory(body){
+  mFlipped=[];mMatched=0;mLocked=false;mMoves=0;
+  const cards=[...M_EMOJIS,...M_EMOJIS].sort(()=>Math.random()-.5);
+  body.innerHTML=`<div class="score-bar"><div><div class="lbl">Moves</div><div class="sv" id="mm">0</div></div><div style="text-align:right"><div class="lbl">Matched</div><div class="tv" id="mmat">0/8</div></div></div><div class="mem-grid" id="mg"></div>`;
+  const g=document.getElementById('mg');
+  cards.forEach((em,i)=>{
+    const c=document.createElement('div');c.className='mem-card';c.dataset.em=em;c.dataset.i=i;
+    c.innerHTML=`<div class="mem-front">?</div><div class="mem-back">${em}</div>`;
+    c.addEventListener('click',()=>flipMem(c));
+    g.appendChild(c);
+  });
+}
+function flipMem(c){
+  if(mLocked||c.classList.contains('flipped')||c.classList.contains('matched'))return;
+  c.classList.add('flipped');mFlipped.push(c);
+  if(mFlipped.length===2){
+    mLocked=true;mMoves++;document.getElementById('mm').textContent=mMoves;
+    if(mFlipped[0].dataset.em===mFlipped[1].dataset.em){
+      mFlipped.forEach(x=>x.classList.add('matched'));mMatched++;
+      document.getElementById('mmat').textContent=`${mMatched}/8`;
+      mFlipped=[];mLocked=false;
+      if(mMatched===8)setTimeout(burst,300);
+    } else {
+      setTimeout(()=>{mFlipped.forEach(x=>x.classList.remove('flipped'));mFlipped=[];mLocked=false;},820);
+    }
+  }
+}
+
+/* ====== 3. EGG CATCHER (FIXED) ====== */
+let cScore=0,cLives=3,cActive=false,cLoop=null,cTmr=null,cTimeLeft=30,cBpct=50;
+const BWIDTH=72;
+function initCatch(body){
+  cScore=0;cLives=3;cActive=false;cTimeLeft=30;cBpct=50;
+  body.innerHTML=`<div class="score-bar"><div><div class="lbl">Score</div><div class="sv" id="cs">0</div></div><div><div class="lbl">Time</div><div class="tv" id="ct">30</div></div><div style="text-align:right"><div class="lbl">Lives</div><div class="tv" id="cl">❤❤❤</div></div></div><div class="arena" style="background:linear-gradient(180deg,#e0f0ff,#d4edda)" id="c-arena"><div id="c-basket" style="position:absolute;bottom:8px;left:calc(50% - 36px);width:${BWIDTH}px;height:42px;background:linear-gradient(135deg,#FF6B9D,#C77DFF);border-radius:0 0 34px 34px;display:flex;align-items:center;justify-content:center;font-size:22px;box-shadow:0 4px 11px rgba(0,0,0,.2);transition:left 0.04s linear">🧺</div></div><div style="text-align:center;font-size:11px;color:#aaa;font-weight:600;margin-top:6px">← → Arrow keys · Tap left/right of arena</div><button class="act-btn" id="c-start-btn" style="background:linear-gradient(135deg,#6BCB77,#4ECDC4)" onclick="startCatch()">🧺 Start Catching!</button>`;
+  document.getElementById('c-arena').addEventListener('click',catchTap);
+  cleanupFns.push(()=>{clearInterval(cLoop);clearInterval(cTmr);cActive=false;document.removeEventListener('keydown',catchKey);});
+}
+function moveBask(){
+  const arena=document.getElementById('c-arena');if(!arena)return;
+  const maxL=arena.offsetWidth-BWIDTH;
+  const px=Math.round((cBpct/100)*maxL);
+  const b=document.getElementById('c-basket');if(b)b.style.left=px+'px';
+}
+function catchTap(e){
+  if(!cActive)return;
+  const r=e.currentTarget.getBoundingClientRect();
+  if(e.clientX<r.left+r.width/2)cBpct=Math.max(0,cBpct-8);
+  else cBpct=Math.min(100,cBpct+8);
+  moveBask();
+}
+function catchKey(e){
+  if(!cActive)return;
+  if(e.key==='ArrowLeft'){cBpct=Math.max(0,cBpct-6);moveBask();}
+  else if(e.key==='ArrowRight'){cBpct=Math.min(100,cBpct+6);moveBask();}
+}
+function startCatch(){
+  cScore=0;cLives=3;cActive=true;cTimeLeft=30;cBpct=50;
+  document.getElementById('cs').textContent='0';
+  document.getElementById('cl').textContent='❤❤❤';
+  document.getElementById('ct').textContent='30';
+  document.getElementById('c-start-btn').style.display='none';
+  moveBask();
+  document.addEventListener('keydown',catchKey);
+  let speed=2.4,spawn=0;
+  if(cLoop)clearInterval(cLoop); if(cTmr)clearInterval(cTmr);
+  cLoop=setInterval(()=>{
+    const arena=document.getElementById('c-arena');if(!arena||!cActive)return;
+    spawn++;
+    if(spawn%13===0){
+      const good=Math.random()>0.24;
+      const egg=document.createElement('div');
+      const epct=5+Math.random()*86;
+      egg.style.cssText=`position:absolute;width:26px;height:34px;border-radius:50% 50% 50% 50%/60% 60% 40% 40%;left:${epct}%;top:-40px;display:flex;align-items:center;justify-content:center;font-size:15px;color:white;font-weight:800;box-shadow:0 2px 5px rgba(0,0,0,.18);background:${good?eggCols[Math.floor(Math.random()*6)]:'#444'}`;
+      egg.textContent=good?'🥚':'💣';
+      egg.dataset.good=good?'1':'0';
+      egg.dataset.epct=String(epct);
+      arena.appendChild(egg);
+      if(speed<4.5)speed+=0.05;
+    }
+    const arenaW=arena.offsetWidth,arenaH=arena.offsetHeight;
+    const bEl=document.getElementById('c-basket');
+    if(!bEl)return;
+    const bLeft=parseInt(bEl.style.left)||0;
+    [...arena.querySelectorAll('[data-good]')].forEach(egg=>{
+      const t=parseFloat(egg.style.top)+speed;
+      egg.style.top=t+'px';
+      const eLeft=(parseFloat(egg.dataset.epct)/100)*arenaW;
+      if(t>arenaH-68&&t<arenaH-6&&eLeft>bLeft-14&&eLeft<bLeft+BWIDTH+14){
+        egg.remove();
+        if(egg.dataset.good==='1'){cScore+=10;document.getElementById('cs').textContent=cScore;spark(bEl);}
+        else{cLives=Math.max(0,cLives-1);const h=['','❤','❤❤','❤❤❤'];document.getElementById('cl').textContent=h[cLives]||'';if(!cLives){cActive=false;clearInterval(cLoop);clearInterval(cTmr);endCatch();}}
+      } else if(t>arenaH+12)egg.remove();
+    });
+  },33);
+  cTmr=setInterval(()=>{if(!cActive)return;cTimeLeft--;const t=document.getElementById('ct');if(t)t.textContent=cTimeLeft;if(cTimeLeft<=0){cActive=false;clearInterval(cLoop);clearInterval(cTmr);endCatch();}},1000);
+}
+function endCatch(){
+  document.removeEventListener('keydown',catchKey);
+  const arena=document.getElementById('c-arena');if(!arena)return;
+  [...arena.querySelectorAll('[data-good]')].forEach(e=>e.remove());
+  const msg=cScore>=100?'Egg Master!':cScore>=50?'Nice Catch!':'Keep Trying!';
+  const em=cScore>=100?'🏆':cScore>=50?'🧺':'😅';
+  const ov=document.createElement('div');ov.className='res-overlay';
+  ov.innerHTML=`<div style="font-size:46px">${em}</div><div style="font-family:'Fredoka One',cursive;font-size:22px;color:#6BCB77">${msg}</div><div style="font-weight:700;color:#666">Score: ${cScore}</div>`;
+  arena.appendChild(ov);
+  const btn=document.getElementById('c-start-btn');btn.style.display='block';btn.textContent='🔄 Play Again';
+  btn.onclick=()=>{ov.remove();startCatch();};
+  if(cScore>=100)burst();
+}
+
+/* ====== 4. COLOR SORT ====== */
+const SORT_COLS=[{n:'Pink',bg:'#FF6B9D'},{n:'Purple',bg:'#C77DFF'},{n:'Green',bg:'#6BCB77'},{n:'Blue',bg:'#4ECDC4'}];
+function initSort(body){
+  const eggs=[];
+  SORT_COLS.forEach(c=>{for(let i=0;i<3;i++)eggs.push({...c,uid:Math.random()});});
+  eggs.sort(()=>Math.random()-.5);
+  body.innerHTML=`<div style="font-size:12px;color:#888;font-weight:600;text-align:center;margin-bottom:11px">Drag each egg to its matching color basket!</div><div style="display:flex;gap:10px;flex-wrap:wrap;justify-content:center;margin-bottom:14px" id="sort-tray"></div><div style="display:flex;gap:10px;justify-content:center;flex-wrap:wrap" id="sort-baskets"></div><div id="sort-res" style="text-align:center;margin-top:10px;font-weight:800;font-size:15px"></div>`;
+  const tray=document.getElementById('sort-tray');
+  eggs.forEach(egg=>{
+    const el=document.createElement('div');el.className='sort-egg';el.style.background=egg.bg;el.dataset.color=egg.n;el.draggable=true;el.textContent='🥚';
+    el.addEventListener('dragstart',e=>{e.dataTransfer.setData('color',egg.n);el.style.opacity='.45';});
+    el.addEventListener('dragend',()=>{el.style.opacity='1';});
+    tray.appendChild(el);
+  });
+  const baskets=document.getElementById('sort-baskets');
+  SORT_COLS.forEach(c=>{
+    const b=document.createElement('div');b.className='sort-basket';b.style.borderColor=c.bg;b.dataset.color=c.n;
+    b.innerHTML=`<div style="font-size:10px;font-weight:700;color:${c.bg};text-align:center">${c.n}</div>`;
+    b.addEventListener('dragover',e=>{e.preventDefault();b.classList.add('drag-over');});
+    b.addEventListener('dragleave',()=>b.classList.remove('drag-over'));
+    b.addEventListener('drop',e=>{
+      e.preventDefault();b.classList.remove('drag-over');
+      const col=e.dataTransfer.getData('color');
+      const src=[...tray.querySelectorAll('.sort-egg')].find(x=>x.dataset.color===col&&x.style.opacity!=='.15');
+      if(!src)return;
+      if(col===c.n){const p=document.createElement('div');p.className='sort-egg';p.style.background=c.bg;p.textContent='✅';b.appendChild(p);src.style.opacity='.15';src.draggable=false;checkSortWin();}
+      else{b.style.background='#ffe0e0';setTimeout(()=>b.style.background='',300);}
+    });
+    baskets.appendChild(b);
+  });
+}
+function checkSortWin(){
+  const placed=document.querySelectorAll('.sort-basket .sort-egg').length;
+  const r=document.getElementById('sort-res');if(!r)return;
+  if(placed>=12){r.innerHTML='🎉 Perfect! All sorted!';r.style.color='#6BCB77';burst();}
+  else{r.innerHTML=`${placed}/12 sorted 🥚`;r.style.color='#888';}
+}
+
+/* ====== 5. TRIVIA ====== */
+const TQS=[
+  {q:'What animal delivers Easter eggs in Australia?',opts:['Easter Bunny','Easter Bilby','Easter Kangaroo','Easter Koala'],a:1},
+  {q:'Which country popularised the chocolate Easter egg?',opts:['USA','Germany','France','Belgium'],a:1},
+  {q:'What flower is most associated with Easter?',opts:['Rose','Sunflower','Lily','Daffodil'],a:2},
+  {q:'The Easter Bunny tradition is said to originate from which culture?',opts:['Roman','Germanic','Egyptian','Celtic'],a:1},
+  {q:'What does the Easter egg traditionally symbolize?',opts:['Spring sunshine','New life','Wealth','Friendship'],a:1},
+  {q:'Which US president started the White House Easter Egg Roll?',opts:['Washington','Lincoln','Rutherford B. Hayes','Roosevelt'],a:2},
+  {q:'Easter Sunday always falls between which two dates?',opts:['Mar 1 – Apr 1','Mar 22 – Apr 25','Apr 1 – May 1','Feb 14 – Apr 1'],a:1},
+  {q:'What is the name of the week before Easter?',opts:['Holy Week','Passion Week','Palm Week','Easter Week'],a:0},
+];
+let tScore=0,tIdx=0,tQs=[];
+function initTrivia(body){tScore=0;tIdx=0;tQs=[...TQS].sort(()=>Math.random()-.5).slice(0,6);body._tqs=tQs;renderTrivia(body,0);}
+function renderTrivia(body,i){
+  const qs=body._tqs;if(!qs||i>=qs.length){body.innerHTML=`<div style="text-align:center;padding:22px"><div style="font-size:46px">${tScore>=5?'🏆':'🤔'}</div><div style="font-family:'Fredoka One',cursive;font-size:22px;color:#C77DFF;margin:8px 0">Score: ${tScore}/${qs.length}</div><div style="color:#888;font-weight:600">${tScore>=5?'Easter genius!':'Keep learning!'}</div><button class="act-btn" style="background:linear-gradient(135deg,#4ECDC4,#6BCB77)" onclick="initTrivia(document.getElementById('m-body'))">Play Again</button></div>`;if(tScore>=5)burst();return;}
+  const q=qs[i];
+  body.innerHTML=`<div style="display:flex;justify-content:space-between;align-items:center;margin-bottom:13px"><span style="font-size:12px;color:#888;font-weight:600">Q${i+1}/${qs.length}</span><span style="font-weight:800;color:#C77DFF">${tScore} pts ⭐</span></div><div class="trivia-q">${q.q}</div><div class="trivia-opts">${q.opts.map((o,j)=>`<div class="trivia-opt" onclick="answerT(this,${j},${q.a},${i})">${o}</div>`).join('')}</div>`;
+  body._tqs=qs;
+}
+function answerT(el,chosen,correct,i){
+  document.querySelectorAll('.trivia-opt').forEach((o,j)=>{o.style.pointerEvents='none';if(j===correct)o.classList.add('correct');else if(j===chosen&&chosen!==correct)o.classList.add('wrong');});
+  if(chosen===correct){tScore++;spark(el);}
+  setTimeout(()=>renderTrivia(document.getElementById('m-body'),i+1),1200);
+}
+
+/* ====== 6. WORD SCRAMBLE ====== */
+const SC_WORDS=[
+  {w:'EASTER',h:'The holiday itself'},{w:'BUNNY',h:'Fluffy egg deliverer'},{w:'CHOCOLATE',h:'Sweet basket treat'},
+  {w:'SPRING',h:'The season of Easter'},{w:'BASKET',h:'Holds the eggs'},{w:'CHICK',h:'Baby bird'},
+  {w:'TULIP',h:'Spring flower'},{w:'BONNET',h:'Easter hat tradition'},{w:'HUNT',h:'Finding eggs activity'},{w:'PASTEL',h:'Soft spring colors'},
+];
+let scTmr=null,scTime=60,scAns=0,scIdx=0,scWords=[];
+function initScramble(body){
+  scTime=60;scAns=0;scIdx=0;scWords=[...SC_WORDS].sort(()=>Math.random()-.5);
+  if(scTmr)clearInterval(scTmr);
+  body.innerHTML=`<div class="score-bar"><div><div class="lbl">Solved</div><div class="sv" id="sc-sc">0</div></div><div style="text-align:right"><div class="lbl">Time</div><div class="tv" id="sc-tm">60</div></div></div><div id="sc-area"></div>`;
+  renderScramble(0);
+  scTmr=setInterval(()=>{scTime--;const t=document.getElementById('sc-tm');if(t)t.textContent=scTime;if(scTime<=0){clearInterval(scTmr);endScramble();}},1000);
+  cleanupFns.push(()=>clearInterval(scTmr));
+}
+function shuf(s){return s.split('').sort(()=>Math.random()-.5).join('');}
+function renderScramble(i){
+  const area=document.getElementById('sc-area');if(!area)return;
+  if(i>=scWords.length){endScramble();return;}
+  const w=scWords[i];let sc=shuf(w.w);let tries=0;while(sc===w.w&&w.w.length>1&&tries++<10)sc=shuf(w.w);
+  area.innerHTML=`<div class="sc-word">${sc}</div><div style="text-align:center;font-size:11px;color:#aaa;font-weight:600;margin-bottom:10px">Hint: ${w.h}</div><input class="sc-input" id="sc-inp" placeholder="Type answer..." maxlength="12" autocomplete="off"><button class="act-btn" id="sc-sub" style="background:linear-gradient(135deg,#FF6B9D,#C77DFF)" onclick="checkSc('${w.w}',${i})">✅ Submit</button><div style="text-align:center;margin-top:7px"><button style="background:none;border:none;color:#aaa;font-weight:600;font-size:12px;cursor:pointer" onclick="renderScramble(${i+1})">⏭ Skip</button></div>`;
+  setTimeout(()=>{const inp=document.getElementById('sc-inp');if(inp){inp.focus();inp.addEventListener('keydown',e=>{if(e.key==='Enter')checkSc(w.w,i);});}},50);
+}
+function checkSc(word,i){
+  const inp=document.getElementById('sc-inp');if(!inp)return;
+  if(inp.value.toUpperCase()===word){inp.classList.add('correct');scAns++;document.getElementById('sc-sc').textContent=scAns;spark(inp);setTimeout(()=>renderScramble(i+1),600);}
+  else{inp.classList.add('wrong');setTimeout(()=>{inp.classList.remove('wrong');inp.value='';},500);}
+}
+function endScramble(){
+  const area=document.getElementById('sc-area');if(!area)return;
+  area.innerHTML=`<div style="text-align:center;padding:20px"><div style="font-size:46px">${scAns>=5?'🏆':'📝'}</div><div style="font-family:'Fredoka One',cursive;font-size:22px;color:#FF6B9D;margin:8px 0">Solved: ${scAns}</div></div>`;
+  if(scAns>=5)burst();
+}
+
+/* ====== 7. WHACK-A-BUNNY (FIXED) ====== */
+let wScore=0,wBest=0,wActive=false,wLoop=null,wTmr=null,wTime=30;
+function initWhack(body){
+  wScore=0;wActive=false;wTime=30;
+  body.innerHTML=`<div class="score-bar"><div><div class="lbl">Score</div><div class="sv" id="w-sc">0</div></div><div><div class="lbl">Time</div><div class="tv" id="w-tm">30</div></div><div style="text-align:right"><div class="lbl">Best</div><div class="sv" id="w-best">${wBest}</div></div></div><div style="text-align:center;font-size:12px;color:#888;font-weight:600;margin-bottom:8px">🐰 Whack bunnies +1 · 🐣 Avoid chicks -1</div><div id="w-grid" style="display:grid;grid-template-columns:repeat(3,1fr);gap:10px;max-width:290px;margin:0 auto"></div><button class="act-btn" id="w-start" style="background:linear-gradient(135deg,#C77DFF,#FF6B9D)" onclick="startWhack()">🔨 Start Whacking!</button>`;
+  buildHoles();
+  cleanupFns.push(()=>{clearInterval(wLoop);clearInterval(wTmr);wActive=false;});
+}
+function buildHoles(){
+  const g=document.getElementById('w-grid');if(!g)return;g.innerHTML='';
+  for(let i=0;i<9;i++){
+    const h=document.createElement('div');h.className='w-hole';h.id='wh'+i;
+    h.addEventListener('click',()=>whackIt(i));
+    g.appendChild(h);
+  }
+}
+function startWhack(){
+  wScore=0;wActive=true;wTime=30;
+  document.getElementById('w-sc').textContent='0';
+  document.getElementById('w-tm').textContent='30';
+  document.getElementById('w-start').style.display='none';
+  buildHoles();
+  let interval=950;
+  if(wLoop)clearInterval(wLoop);if(wTmr)clearInterval(wTmr);
+  wLoop=setInterval(()=>{
+    if(!wActive)return;
+    if(interval>420)interval-=12;
+    const avail=[];
+    for(let i=0;i<9;i++){const h=document.getElementById('wh'+i);if(h&&!h.dataset.busy)avail.push(i);}
+    if(!avail.length)return;
+    popW(avail[Math.floor(Math.random()*avail.length)],interval);
+  },700);
+  wTmr=setInterval(()=>{if(!wActive)return;wTime--;const t=document.getElementById('w-tm');if(t)t.textContent=wTime;if(wTime<=0){wActive=false;clearInterval(wLoop);clearInterval(wTmr);endWhack();}},1000);
+}
+function popW(i,showFor){
+  const h=document.getElementById('wh'+i);if(!h)return;
+  const bunny=Math.random()>0.3;
+  h.dataset.busy='1';h.dataset.type=bunny?'bunny':'chick';
+  h.textContent=bunny?'🐰':'🐣';h.classList.add('popping');
+  setTimeout(()=>{if(!h)return;h.textContent='';h.classList.remove('popping');delete h.dataset.busy;delete h.dataset.type;},showFor||800);
+}
+function whackIt(i){
+  if(!wActive)return;
+  const h=document.getElementById('wh'+i);if(!h||!h.dataset.busy)return;
+  const bunny=h.dataset.type==='bunny';
+  h.textContent='';h.classList.remove('popping');delete h.dataset.busy;delete h.dataset.type;
+  if(bunny){wScore++;h.style.background='#6BCB77';setTimeout(()=>{h.style.background='#7a5230';},280);}
+  else{wScore=Math.max(0,wScore-1);h.style.background='#FF6B9D';setTimeout(()=>{h.style.background='#7a5230';},280);}
+  document.getElementById('w-sc').textContent=wScore;
+}
+function endWhack(){
+  if(wScore>wBest){wBest=wScore;const b=document.getElementById('w-best');if(b)b.textContent=wBest;}
+  for(let i=0;i<9;i++){const h=document.getElementById('wh'+i);if(h){h.textContent='';delete h.dataset.busy;delete h.dataset.type;}}
+  const g=document.getElementById('w-grid');if(!g)return;
+  const msg=wScore>=15?'Whack Champ!':wScore>=8?'Nice Aim!':'Keep Swinging!';
+  const em=wScore>=15?'🏆':wScore>=8?'🔨':'😅';
+  g.innerHTML=`<div style="grid-column:1/-1;display:flex;flex-direction:column;align-items:center;gap:9px;padding:16px"><div style="font-size:46px">${em}</div><div style="font-family:'Fredoka One',cursive;font-size:22px;color:#C77DFF">${msg}</div><div style="font-weight:700;color:#666">Score: ${wScore}</div></div>`;
+  const btn=document.getElementById('w-start');btn.style.display='block';btn.textContent='🔄 Play Again';
+  btn.onclick=()=>{buildHoles();startWhack();};
+  if(wScore>=15)burst();
+}
+
+/* ====== 8. EGG PAINTER ====== */
+let painting=false,brushCol='#FF6B9D',brushSz=8;
+function initPaint(body){
+  const swatches=['#FF6B9D','#C77DFF','#4ECDC4','#FFE66D','#6BCB77','#FF9E7D','#85C1E9','#ffffff','#222222'];
+  body.innerHTML=`<div style="text-align:center"><canvas id="paint-cv" width="260" height="300" style="border-radius:38% 38% 43% 43%/48% 48% 43% 43%;border:3px solid #eee;background:white"></canvas><div style="display:flex;gap:7px;flex-wrap:wrap;justify-content:center;margin-top:10px">${swatches.map(c=>`<div class="p-swatch${c===brushCol?' active':''}" style="background:${c};border:2px solid ${c==='#ffffff'?'#eee':'transparent'}" onclick="setBCol('${c}',this)"></div>`).join('')}</div><div style="display:flex;gap:7px;align-items:center;justify-content:center;margin-top:7px"><span style="font-size:11px;color:#888;font-weight:600">Size:</span>${[4,8,16,24].map(s=>`<button class="p-brush${s===brushSz?' active':''}" style="width:${s+4}px;height:${s+4}px" onclick="setBSz(${s},this)"></button>`).join('')}<button style="background:#eee;border:none;padding:4px 10px;border-radius:8px;cursor:pointer;font-weight:700;font-size:11px" onclick="clearPaint()">🗑 Clear</button></div></div>`;
+  const cv=document.getElementById('paint-cv');const ctx=cv.getContext('2d');
+  ctx.strokeStyle='#e8e8e8';ctx.lineWidth=1;
+  for(let y=0;y<300;y+=18){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(260,y);ctx.stroke();}
+  function draw(e){
+    if(!painting)return;
+    const r=cv.getBoundingClientRect();const sx=cv.width/r.width;const sy=cv.height/r.height;
+    const cx=(e.clientX||(e.touches&&e.touches[0].clientX)||0)-r.left;
+    const cy=(e.clientY||(e.touches&&e.touches[0].clientY)||0)-r.top;
+    ctx.fillStyle=brushCol;ctx.beginPath();ctx.arc(cx*sx,cy*sy,brushSz,0,Math.PI*2);ctx.fill();
+  }
+  cv.addEventListener('mousedown',e=>{painting=true;draw(e);});
+  cv.addEventListener('mousemove',draw);
+  cv.addEventListener('mouseup',()=>painting=false);
+  cv.addEventListener('mouseleave',()=>painting=false);
+  cv.addEventListener('touchstart',e=>{e.preventDefault();painting=true;draw(e);},{passive:false});
+  cv.addEventListener('touchmove',e=>{e.preventDefault();draw(e);},{passive:false});
+  cv.addEventListener('touchend',()=>painting=false);
+}
+function setBCol(c,el){brushCol=c;document.querySelectorAll('.p-swatch').forEach(s=>s.classList.remove('active'));el.classList.add('active');}
+function setBSz(s,el){brushSz=s;document.querySelectorAll('.p-brush').forEach(b=>b.classList.remove('active'));el.classList.add('active');}
+function clearPaint(){const cv=document.getElementById('paint-cv');if(!cv)return;const ctx=cv.getContext('2d');ctx.clearRect(0,0,cv.width,cv.height);ctx.strokeStyle='#e8e8e8';ctx.lineWidth=1;for(let y=0;y<300;y+=18){ctx.beginPath();ctx.moveTo(0,y);ctx.lineTo(260,y);ctx.stroke();}}
+</script>
